@@ -1,13 +1,14 @@
 require("colors")
-const express = require("express")
-const dotenv = require("dotenv")
-const morgan = require("morgan")
+require("dotenv").config()
 
-dotenv.config()
+const express = require("express")
+const morgan = require("morgan")
 
 const PORT = process.env.PORT || 5000
 const VERSION_NUMBER = process.env.VERSION_NUMBER || "v1"
 const NODE_ENV = process.env.NODE_ENV
+
+require("./DB").connectMONGO()
 
 const app = express()
 
