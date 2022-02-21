@@ -9,6 +9,7 @@ const VERSION_NUMBER = process.env.VERSION_NUMBER || "v1";
 const NODE_ENV = process.env.NODE_ENV;
 
 require("./DB").connectMONGO();
+const { errorHandler, notFound } = require("./middleware");
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running....");
 });
+
+app.use(errorHandler);
+app.use(notFound);
 
 app.listen(
   PORT,
