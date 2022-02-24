@@ -16,7 +16,7 @@ const app = express();
 if (NODE_ENV === "development") app.use(morgan("dev"));
 
 app.use(express.json());
-// app.use(`/${VERSION_NUMBER}/api`, require("./routes"))
+app.use(`/${VERSION_NUMBER}/api`, require("./routes").routes);
 
 app.get("/", (req, res) => {
   res.send("API is running....");
