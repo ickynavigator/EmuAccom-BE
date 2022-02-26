@@ -13,7 +13,157 @@ servers:
 tags:
   - name: Dorm
     description: Dormitory related uris
+  - name: User
+    description: User related uris
 paths:
+  /users:
+    get:
+      summary: Get all users
+      operationId: getAllUsers
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: pageSize
+          description: "Pagination: Page size of dorms sent back in the payload. Defaults to 10"
+          schema:
+            type: integer
+        - in: query
+          name: pageNumber
+          description: "Pagination: Current Page number. Defaults to 1"
+          schema:
+            type: integer
+        - in: query
+          name: noPaginate
+          description: "Pagination: Deactivate pagination. Defaults to false"
+          schema:
+            type: boolean
+        - in: query
+          name: param
+          description: "Search: Parameter you want to search in. E.g. Title, Description"
+          schema:
+            type: string
+            default: ""
+        - in: query
+          name: keyword
+          description: "Search: Keyword you want to search in"
+          schema:
+            type: string
+            default: ""
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        "401":
+          description: Unauthorized request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: "User: Sign up a user"
+      operationId: registerUser
+      tags:
+        - User
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - firstName
+                - lastName
+                - type
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - student
+                    - staff
+                    - admin
+      responses:
+        "201":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Malformed request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/login:
+    post:
+      summary: "User: Login a user"
+      operationId: loginUser
+      tags:
+        - User
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /dorm:
     get:
       summary: "Dormitory: Fetches all the dorm data"
@@ -69,6 +219,27 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        type:
+          type: string
+          enum:
+            - student
+            - houseOwner
+            - dormOwner
+        token:
+          type: string
+        isAdmin:
+          type: boolean
     DormResponse:
       type: object
       required:
@@ -84,8 +255,6 @@ components:
           type: integer
     Error:
       type: object
-      required:
-        - message
       properties:
         message:
           type: string
@@ -156,8 +325,7 @@ components:
               user:
                 type: string
   securitySchemes:
-    BasicAuth:
+    bearerAuth:
       type: http
-      scheme: basic
-# security:
-# - BasicAuth: []
+      scheme: bearer
+      bearerFormat: JWT
