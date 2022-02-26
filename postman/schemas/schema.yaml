@@ -1,72 +1,72 @@
 openapi: 3.0.0
 info:
-  version: '1.0.0'
-  title: 'Emu Accom'
-  description: 'API Documentation for the EMU Accom'
+  version: "1.0.0"
+  title: "Emu Accom"
+  description: "API Documentation for the EMU Accom"
   license:
     name: MIT
 externalDocs:
   description: Source Code
   url: https://github.com/ickynavigator/EmuAccom-BE
 servers:
-  - url: 'localhost:3333/v1/api'
+  - url: "localhost:3333/v1/api"
 tags:
   - name: Dorm
     description: Dormitory related uris
 paths:
   /dorm:
     get:
-      summary: 'Dormitory: Fetches all the dorm data'
+      summary: "Dormitory: Fetches all the dorm data"
       operationId: listDorms
       tags:
         - Dorm
       parameters:
         - in: query
           name: pageSize
-          description: 'Pagination: Page size of dorms sent back in the payload. Defaults to 10'
+          description: "Pagination: Page size of dorms sent back in the payload. Defaults to 10"
           schema:
             type: integer
         - in: query
           name: pageNumber
-          description: 'Pagination: Current Page number. Defaults to 1'
+          description: "Pagination: Current Page number. Defaults to 1"
           schema:
             type: integer
         - in: query
           name: paginate
-          description: 'Pagination: Deactivate pagination. Defaults to true'
+          description: "Pagination: Deactivate pagination. Defaults to true"
           schema:
             type: boolean
         - in: query
           name: param
           description: "Search: Parameter you want to search in. E.g. Title, Description"
           schema:
-              type: string
-              default: ''
+            type: string
+            default: ""
         - in: query
           name: keyword
           description: "Search: Keyword you want to search in"
           schema:
-              type: string
-              default: ''
+            type: string
+            default: ""
       responses:
-        '200':
-          description: 'All Dorms or Dorms that match the search params'
+        "200":
+          description: "All Dorms or Dorms that match the search params"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DormResponse'
-        '404':
-          description: 'No dorm available'
+                $ref: "#/components/schemas/DormResponse"
+        "404":
+          description: "No dorm available"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     DormResponse:
@@ -77,13 +77,11 @@ components:
         dorms:
           type: array
           items:
-            $ref: '#/components/schemas/Dorm'
+            $ref: "#/components/schemas/Dorm"
         page:
           type: integer
-          minimum: 1
         pages:
           type: integer
-          minimum: 1
     Error:
       type: object
       required:
@@ -94,14 +92,14 @@ components:
     Dorm:
       type: object
       properties:
-        name: 
+        name:
           type: string
         description:
-          type: string 
+          type: string
         address:
           type: object
           properties:
-            addressLine: 
+            addressLine:
               type: string
             city:
               type: string
@@ -109,13 +107,13 @@ components:
               type: string
             country:
               type: string
-        bedroomCount: 
+        bedroomCount:
           type: integer
           minimum: 1
         bedCount:
           type: integer
           minimum: 1
-        bathroomCount: 
+        bathroomCount:
           type: integer
           minimum: 1
         accomodateCount:
@@ -148,12 +146,12 @@ components:
           items:
             type: object
             properties:
-              name: 
+              name:
                 type: string
               rating:
                 type: number
                 minimum: 1
-              comment: 
+              comment:
                 type: string
               user:
                 type: string
@@ -161,5 +159,5 @@ components:
     BasicAuth:
       type: http
       scheme: basic
-security:
-  - BasicAuth: []
+# security:
+# - BasicAuth: []
