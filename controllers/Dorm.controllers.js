@@ -20,6 +20,7 @@ exports.getDorms = asyncHandler(async (req, res) => {
         { name: { $regex: req.query.keyword, $options: regOpt } },
         { description: { $regex: req.query.keyword, $options: regOpt } },
         { keywords: { $regex: req.query.keyword, $options: regOpt } },
+        { management: { $regex: req.query.keyword, $options: regOpt } },
       ];
 
       const specificQuery = {};
