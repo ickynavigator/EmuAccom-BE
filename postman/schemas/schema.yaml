@@ -182,8 +182,8 @@ paths:
           schema:
             type: integer
         - in: query
-          name: paginate
-          description: "Pagination: Deactivate pagination. Defaults to true"
+          name: noPaginate
+          description: "Pagination: Deactivate pagination. Defaults to false"
           schema:
             type: boolean
         - in: query
@@ -204,7 +204,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DormResponse"
+                type: object
+                properties:
+                  dorms:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Dorm"
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
         "404":
           description: "No dorm available"
           content:
@@ -240,19 +249,6 @@ components:
           type: string
         isAdmin:
           type: boolean
-    DormResponse:
-      type: object
-      required:
-        - dorms
-      properties:
-        dorms:
-          type: array
-          items:
-            $ref: "#/components/schemas/Dorm"
-        page:
-          type: integer
-        pages:
-          type: integer
     Error:
       type: object
       properties:
