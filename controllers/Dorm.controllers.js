@@ -10,7 +10,7 @@ exports.getDorms = asyncHandler(async (req, res) => {
   try {
     const pageSize = Number(req.query.pageSize) || 10;
     const page = Number(req.query.pageNumber) || 1;
-    const paginate = req.query.paginate?.toLowerCase() || "true";
+    const paginate = String(req.query.paginate)?.toLowerCase() || "true";
     const param = req.query.param || "";
     const regOpt = "gim";
     let keyword = [{}];
@@ -43,6 +43,9 @@ exports.getDorms = asyncHandler(async (req, res) => {
 
     return res.status(200).json(result);
   } catch (err) {
-    return res.status(400).json({ message: err });
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
   }
 });
