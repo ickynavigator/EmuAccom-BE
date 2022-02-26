@@ -2,36 +2,40 @@ openapi: 3.0.0
 info:
   version: '1.0.0'
   title: 'Emu Accom'
+  description: 'API Documentation for the EMU Accom'
   license:
     name: MIT
+externalDocs:
+  description: Source Code
+  url: https://github.com/ickynavigator/EmuAccom-BE
 servers:
-  - url: 'localhost:3000'
+  - url: 'localhost:3333/v1/api'
+tags:
+  - name: Dorm
+    description: Dormitory related uris
 paths:
   /dorm:
     get:
       summary: 'Dormitory: Fetches all the dorm data'
       operationId: listDorms
       tags:
-        - dorm
+        - Dorm
       parameters:
         - in: query
           name: pageSize
           description: 'Pagination: Page size of dorms sent back in the payload. Defaults to 10'
           schema:
             type: integer
-            default: 10
         - in: query
           name: pageNumber
           description: 'Pagination: Current Page number. Defaults to 1'
           schema:
             type: integer
-            default: 1
         - in: query
           name: paginate
           description: 'Pagination: Deactivate pagination. Defaults to true'
           schema:
             type: boolean
-            default: true
         - in: query
           name: param
           description: "Search: Parameter you want to search in. E.g. Title, Description"
@@ -71,7 +75,9 @@ components:
         - dorms
       properties:
         dorms:
-          type: object
+          type: array
+          items:
+            $ref: '#/components/schemas/Dorm'
         page:
           type: integer
           minimum: 1
@@ -85,6 +91,72 @@ components:
       properties:
         message:
           type: string
+    Dorm:
+      type: object
+      properties:
+        name: 
+          type: string
+        description:
+          type: string 
+        address:
+          type: object
+          properties:
+            addressLine: 
+              type: string
+            city:
+              type: string
+            postalCode:
+              type: string
+            country:
+              type: string
+        bedroomCount: 
+          type: integer
+          minimum: 1
+        bedCount:
+          type: integer
+          minimum: 1
+        bathroomCount: 
+          type: integer
+          minimum: 1
+        accomodateCount:
+          type: integer
+          minimum: 1
+        availabilityCount:
+          type: integer
+          minimum: 1
+        pricePerSemester:
+          type: integer
+          minimum: 1
+        pricePerNight:
+          type: integer
+          minimum: 1
+        pictures:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              description:
+                type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        reviews:
+          type: array
+          items:
+            type: object
+            properties:
+              name: 
+                type: string
+              rating:
+                type: number
+                minimum: 1
+              comment: 
+                type: string
+              user:
+                type: string
   securitySchemes:
     BasicAuth:
       type: http
