@@ -41,7 +41,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error(err);
     return res
-      .status(400)
+      .status(500)
       .json({ message: "An Error has occured. Please try again." });
   }
 });
@@ -81,17 +81,22 @@ exports.getAllUsers = asyncHandler(async (req, res) => {
         .skip(pageSize * (page - 1))
         .select("-password");
       const count = await User.countDocuments({ $or: [...keyword] });
-      result = { users, page, pages: Math.ceil(count / pageSize) };
+      result = {
+        users,
+        page,
+        pages: Math.ceil(count / pageSize),
+        total: count,
+      };
     } else {
       const users = await User.find({ $or: [...keyword] }).select("-password");
-      result = { users };
+      result = { users, total: users.length };
     }
 
     return res.status(200).json(result);
   } catch (err) {
     console.error(err);
     return res
-      .status(400)
+      .status(500)
       .json({ message: "An Error has occured. Please try again." });
   }
 });
@@ -208,7 +213,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error(err);
     return res
-      .status(400)
+      .status(500)
       .json({ message: "An Error has occured. Please try again." });
   }
 });
