@@ -6,4 +6,5 @@ router.use("/users", require("../routes/User.routes"));
 
 module.exports = {
   routes: router,
+  monitoringRoutes: require("../routes/Monitoring.routes"),
 };

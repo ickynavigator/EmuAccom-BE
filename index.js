@@ -8,7 +8,7 @@ const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
 
 const PORT = process.env.PORT || 5000;
-const VERSION_NUMBER = process.env.VERSION_NUMBER || "v1";
+const VERSION_NUMBER = process.env.VERSION_NUMBER;
 const NODE_ENV = process.env.NODE_ENV;
 
 require("./DB").connectMONGO();
@@ -34,6 +34,7 @@ app.use(
   }),
 );
 app.use(`/${VERSION_NUMBER}/api`, require("./routes").routes);
+app.use("/", require("./routes").monitoringRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running....");
