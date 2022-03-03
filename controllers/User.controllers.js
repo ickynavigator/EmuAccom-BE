@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models");
+const { updateIfNotEmpty } = require("../utils");
 
 /**
  * @desc   Register A New User
@@ -91,6 +92,90 @@ exports.getAllUsers = asyncHandler(async (req, res) => {
     console.error(err);
     return res
       .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Get user By Id
+ * @route  GET /api/users/:id
+ * @access Admin - Private
+ */
+exports.getUserById = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+
+    if (user) {
+      return res.status(200).json(user);
+    } else {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Update User Details By id
+ * @route  PUT /api/users/:id
+ * @access Admin - Private
+ */
+exports.updateUserById = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      const { firstName, lastName, email, type, isAdmin } = req.body;
+
+      updateIfNotEmpty(user, [
+        { key: "firstName", value: String(firstName).trim() },
+        { key: "lastName", value: String(lastName).trim() },
+        { key: "email", value: String(email).trim() },
+        { key: "type", value: String(type).trim() },
+        { key: "isAdmin", value: String(isAdmin).trim() },
+      ]);
+
+      const updatedUser = await user.save();
+      return res.status(200).json({
+        _id: updatedUser._id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        type: updatedUser.type,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      return res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Delete a user by Id
+ * @route  DELETE /api/users/:id
+ * @access Admin - Private
+ */
+exports.deleteUserById = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (user) {
+      return res.status(204).end();
+    } else {
+      return res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
       .json({ message: "An Error has occured. Please try again." });
   }
 });

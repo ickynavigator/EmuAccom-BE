@@ -3,11 +3,19 @@ const {
   registerUser,
   loginUser,
   getAllUsers,
+  deleteUserById,
+  getUserById,
+  updateUserById,
 } = require("../controllers/User.controllers");
 const { protect, admin } = require("../middleware/auth.middleware");
 const router = express.Router();
 
 router.route("/").get(protect, admin, getAllUsers).post(registerUser);
 router.route("/login").post(loginUser);
+router
+  .route("/:id")
+  .get(protect, admin, getUserById)
+  .put(protect, admin, updateUserById)
+  .delete(protect, admin, deleteUserById);
 
 module.exports = router;
