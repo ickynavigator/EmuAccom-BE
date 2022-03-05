@@ -6,14 +6,15 @@ const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
-const { ObjectID } = require("bson");
+
+const { openApiConfig } = require("./configs/open-api-validator.js");
+const { errorHandler, notFound } = require("./middleware");
 
 const PORT = process.env.PORT || 5000;
 const VERSION_NUMBER = process.env.VERSION_NUMBER;
 const NODE_ENV = process.env.NODE_ENV;
 
 require("./DB").connectMONGO();
-const { errorHandler, notFound } = require("./middleware");
 
 const app = express();
 
@@ -27,22 +28,7 @@ app.use(
   "/spec",
   express.static(path.join(__dirname, "postman", "schemas", "schema.yaml")),
 );
-app.use(
-  OpenApiValidator.middleware({
-    apiSpec: "./postman/schemas/schema.yaml",
-    validateResponses: true,
-    validateRequests: true,
-    serDes: [
-      OpenApiValidator.serdes.dateTime,
-      OpenApiValidator.serdes.date,
-      {
-        format: "mongo-objectid",
-        deserialize: s => new ObjectID(s),
-        serialize: o => o.toString(),
-      },
-    ],
-  }),
-);
+app.use(OpenApiValidator.middleware(openApiConfig));
 app.use(`/${VERSION_NUMBER}/api`, require("./routes").routes);
 app.use("/", require("./routes").monitoringRoutes);
 

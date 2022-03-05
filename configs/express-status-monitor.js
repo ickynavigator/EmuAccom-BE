@@ -1,6 +1,6 @@
 const auth = require("http-auth");
 
-const config = {
+exports.config = {
   title: "EMUACCOM Status",
   path: "",
   spans: [
@@ -26,7 +26,7 @@ const config = {
   ],
 };
 
-const authBasic = auth.basic(
+exports.authBasic = auth.basic(
   { realm: "Monitor Area" },
   (user, pass, callback) => {
     const isAuthorized =
@@ -35,8 +35,3 @@ const authBasic = auth.basic(
     callback(isAuthorized);
   },
 );
-
-module.exports = {
-  config,
-  authBasic,
-};
