@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
+const { ObjectID } = require("bson");
 
 const PORT = process.env.PORT || 5000;
 const VERSION_NUMBER = process.env.VERSION_NUMBER;
@@ -31,6 +32,15 @@ app.use(
     apiSpec: "./postman/schemas/schema.yaml",
     validateResponses: true,
     validateRequests: true,
+    serDes: [
+      OpenApiValidator.serdes.dateTime,
+      OpenApiValidator.serdes.date,
+      {
+        format: "mongo-objectid",
+        deserialize: s => new ObjectID(s),
+        serialize: o => o.toString(),
+      },
+    ],
   }),
 );
 app.use(`/${VERSION_NUMBER}/api`, require("./routes").routes);

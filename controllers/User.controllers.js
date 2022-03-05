@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models");
 const { updateIfNotEmpty } = require("../utils");
+const jwt = require("jsonwebtoken");
 
 /**
  * @desc   Register A New User
@@ -209,6 +210,111 @@ exports.loginUser = asyncHandler(async (req, res) => {
       return res.status(200).json(userInfo);
     } else {
       return res.status(401).json({ message: "Invalid Username or Password" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Get the logged-in user's profile
+ * @route  GET /api/users/profile
+ * @access Private
+ */
+exports.getUserProfile = asyncHandler(async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(token);
+
+    if (id) {
+      const user = await User.findById(id);
+      if (user) {
+        const { _id, firstName, lastName, email, type, isAdmin } = user;
+
+        const userData = { _id, firstName, lastName, type, email, isAdmin };
+        return res.status(200).json(userData);
+      } else {
+        return res.status(404).json({ message: "User not found" });
+      }
+    }
+
+    return res.status(401).json({ message: "Invalid Token" });
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Update the logged-in user's Profile
+ * @route  PUT /api/users/profile
+ * @access Private
+ */
+exports.updateUserProfile = asyncHandler(async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(token);
+    if (!id) {
+      return res.status(401).json({ message: "Invalid Token" });
+    }
+
+    const user = await User.findById(id);
+
+    if (user) {
+      const { firstName, lastName, email } = req.body;
+
+      updateIfNotEmpty(user, [
+        { key: "firstName", value: String(firstName).trim() },
+        { key: "lastName", value: String(lastName).trim() },
+        { key: "email", value: String(email).trim() },
+      ]);
+
+      const updatedUser = await user.save();
+      return res.status(200).json({
+        _id: updatedUser._id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        type: updatedUser.type,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      return res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Delete the logged-in user's Profile
+ * @route  DELETE /api/users/profile
+ * @access Private
+ */
+exports.deleteUserProfile = asyncHandler(async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(token);
+    if (!id) {
+      return res.status(401).json({ message: "Invalid Token" });
+    }
+
+    if (await User.findById(id)) {
+      const user = await User.findByIdAndDelete(id);
+
+      if (user) {
+        return res.status(204).end();
+      }
+    } else {
+      return res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
     console.error(err);

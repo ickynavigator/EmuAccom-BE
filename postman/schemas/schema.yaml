@@ -278,6 +278,88 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /users/profile:
+    get:
+      summary: "User: Get a users profile"
+      operationId: getUserProfile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: "User: Update a users profile"
+      operationId: updateUserProfile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: "User: Delete a users profile"
+      operationId: deleteUserProfile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Profile Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /dorm:
     get:
       summary: "Dormitory: Fetches all the dorm data"
@@ -345,6 +427,9 @@ components:
     User:
       type: object
       properties:
+        _id:
+          type: string
+          format: mongo-objectid
         email:
           type: string
         password:
