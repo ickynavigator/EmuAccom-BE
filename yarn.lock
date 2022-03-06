@@ -1484,6 +1484,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+helmet@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/helmet/-/helmet-5.0.2.tgz#3264ec6bab96c82deaf65e3403c369424cb2366c"
+  integrity sha512-QWlwUZZ8BtlvwYVTSDTBChGf8EOcQ2LkGMnQJxSzD1mUu8CCjXJZq/BXP8eWw4kikRnzlhtYo3lCk0ucmYA3Vg==
+
 http-auth-connect@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/http-auth-connect/-/http-auth-connect-1.0.5.tgz#7796d361f9ac56d80ada8ff54c61aa857768335f"

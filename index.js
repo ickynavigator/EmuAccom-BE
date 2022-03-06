@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
+const helmet = require("helmet");
 
 const openApiConfig = require("./configs/open-api-validator.js");
 const { errorHandler, notFound } = require("./middleware");
@@ -21,6 +22,7 @@ const app = express();
 if (NODE_ENV === "development") app.use(morgan("dev"));
 
 app.use(cors());
+app.use(helmet());
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
