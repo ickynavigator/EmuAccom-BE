@@ -1,5 +1,5 @@
 const { ObjectID } = require("bson");
-const { OpenApiValidator } = require("express-openapi-validator");
+const OpenApiValidator = require("express-openapi-validator");
 
 module.exports = {
   apiSpec: "./postman/schemas/schema.yaml",

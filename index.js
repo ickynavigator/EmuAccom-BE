@@ -7,7 +7,7 @@ const cors = require("cors");
 const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
 
-const { openApiConfig } = require("./configs/open-api-validator.js");
+const openApiConfig = require("./configs/open-api-validator.js");
 const { errorHandler, notFound } = require("./middleware");
 
 const PORT = process.env.PORT || 5000;
