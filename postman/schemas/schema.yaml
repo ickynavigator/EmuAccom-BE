@@ -9,7 +9,7 @@ externalDocs:
   description: Source Code
   url: https://github.com/ickynavigator/EmuAccom-BE
 servers:
-  - url: "localhost:3333/v1/api"
+  - url: "https:localhost:3333/v1/api"
 tags:
   - name: Dorm
     description: Dormitory related uris
@@ -25,33 +25,11 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: query
-          name: pageSize
-          description: "Pagination: Page size of dorms sent back in the payload. Defaults to 10"
-          schema:
-            type: integer
-        - in: query
-          name: pageNumber
-          description: "Pagination: Current Page number. Defaults to 1"
-          schema:
-            type: integer
-        - in: query
-          name: noPaginate
-          description: "Pagination: Deactivate pagination. Defaults to false"
-          schema:
-            type: boolean
-        - in: query
-          name: param
-          description: "Search: Parameter you want to search in. E.g. Title, Description"
-          schema:
-            type: string
-            default: ""
-        - in: query
-          name: keyword
-          description: "Search: Keyword you want to search in"
-          schema:
-            type: string
-            default: ""
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/pageNumber"
+        - $ref: "#/components/parameters/noPaginate"
+        - $ref: "#/components/parameters/param"
+        - $ref: "#/components/parameters/keyword"
       responses:
         "200":
           description: A successful response
@@ -59,6 +37,7 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   users:
                     type: array
@@ -66,20 +45,18 @@ paths:
                       $ref: "#/components/schemas/User"
                   page:
                     type: integer
+                    format: int32
+                    minimum: 1
+                    maximum: 1000
                   pages:
                     type: integer
+                    format: int32
+                    minimum: 1
+                    maximum: 1000
         "401":
-          description: Unauthorized request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
     post:
       summary: "User: Sign up a user"
       operationId: registerUser
@@ -91,6 +68,7 @@ paths:
         content:
           application/json:
             schema:
+              additionalProperties: false
               type: object
               required:
                 - email
@@ -367,33 +345,11 @@ paths:
       tags:
         - Dorm
       parameters:
-        - in: query
-          name: pageSize
-          description: "Pagination: Page size of dorms sent back in the payload. Defaults to 10"
-          schema:
-            type: integer
-        - in: query
-          name: pageNumber
-          description: "Pagination: Current Page number. Defaults to 1"
-          schema:
-            type: integer
-        - in: query
-          name: noPaginate
-          description: "Pagination: Deactivate pagination. Defaults to false"
-          schema:
-            type: boolean
-        - in: query
-          name: param
-          description: "Search: Parameter you want to search in. E.g. Title, Description"
-          schema:
-            type: string
-            default: ""
-        - in: query
-          name: keyword
-          description: "Search: Keyword you want to search in"
-          schema:
-            type: string
-            default: ""
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/pageNumber"
+        - $ref: "#/components/parameters/noPaginate"
+        - $ref: "#/components/parameters/param"
+        - $ref: "#/components/parameters/keyword"
       responses:
         "200":
           description: "All Dorms or Dorms that match the search params"
@@ -408,8 +364,10 @@ paths:
                       $ref: "#/components/schemas/Dorm"
                   page:
                     type: integer
+                    format: int32
                   pages:
                     type: integer
+                    format: int32
         "404":
           description: "No dorm available"
           content:
@@ -423,21 +381,88 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 components:
+  parameters:
+    pageSize:
+      in: query
+      name: pageSize
+      description: "Pagination: Page size sent back in the payload. Defaults to 10"
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 20
+    pageNumber:
+      in: query
+      name: pageNumber
+      description: "Pagination: Current Page number. Defaults to 1"
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+    noPaginate:
+      in: query
+      name: noPaginate
+      description: "Pagination: Deactivate pagination. Defaults to false"
+      schema:
+        type: boolean
+    param:
+      in: query
+      name: param
+      description: "Search: Parameter you want to search in. E.g. Title, Description"
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9 ]*$
+        maxLength: 20
+    keyword:
+      in: query
+      name: keyword
+      description: "Search: Keyword you want to search in"
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9 ]*$
+        maxLength: 20
+  responses:
+    Unauthorized:
+      description: Unauthorized request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    DefaultError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
   schemas:
     User:
       type: object
+      additionalProperties: false
       properties:
         _id:
           type: string
           format: mongo-objectid
+          pattern: ^[A-Za-z0-9 ]{24}$
+          maxLength: 24
         email:
           type: string
+          format: email
+          pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+          maxLength: 256
         password:
           type: string
+          format: password
+          pattern: ^[A-Za-z0-9!@#$%^&*()_.]{64}$
+          maxLength: 64
         firstName:
           type: string
+          pattern: ^[A-Za-z-]{64}$
+          maxLength: 64
         lastName:
           type: string
+          pattern: ^[A-Za-z-]{64}$
+          maxLength: 64
         type:
           type: string
           enum:
@@ -446,81 +471,132 @@ components:
             - dormOwner
         token:
           type: string
+          pattern: ^(?:[\w-]*\.){2}[\w-]*$
         isAdmin:
           type: boolean
     Error:
       type: object
+      additionalProperties: false
       properties:
         message:
           type: string
     Dorm:
       type: object
+      additionalProperties: false
       properties:
         name:
           type: string
+          pattern: ^[A-Za-z0-9. ]{256}$
+          maxLength: 256
         description:
           type: string
+          pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+          maxLength: 1000
         address:
           type: object
+          additionalProperties: false
           properties:
             addressLine:
               type: string
+              pattern: ^[A-Za-z0-9. ]{256}$
+              maxLength: 256
             city:
               type: string
+              pattern: ^[A-Za-z0-9. ]{256}$
+              maxLength: 256
             postalCode:
               type: string
             country:
               type: string
+              pattern: ^[a-zA-Z]{2,}$
         bedroomCount:
           type: integer
+          format: int32
           minimum: 1
+          maximum: 100
         bedCount:
           type: integer
+          format: int32
           minimum: 1
+          maximum: 50
         bathroomCount:
           type: integer
+          format: int32
           minimum: 1
+          maximum: 50
         accomodateCount:
           type: integer
+          format: int32
           minimum: 1
+          maximum: 50
         availabilityCount:
           type: integer
+          format: int32
           minimum: 1
+          maximum: 100
         pricePerSemester:
-          type: integer
+          type: number
+          format: currency
           minimum: 1
+          maximum: 999999
         pricePerNight:
-          type: integer
+          type: number
+          format: currency
           minimum: 1
+          maximum: 999999
         pictures:
           type: array
           items:
+            additionalProperties: false
             type: object
             properties:
               url:
                 type: string
+                format: url
+                pattern: ^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$
+                maxLength: 300
               description:
                 type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 1000
         keywords:
           type: array
           items:
             type: string
+            pattern: ^[A-Za-z0-9. ]{256}$
+            maxLength: 256
         reviews:
           type: array
           items:
+            additionalProperties: false
             type: object
             properties:
               name:
                 type: string
+                pattern: ^[A-Za-z0-9. ]{256}$
+                maxLength: 256
               rating:
-                type: number
+                type: integer
+                format: int32
                 minimum: 1
+                maximum: 5
               comment:
                 type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 256
               user:
                 type: string
+                format: mongo-objectid
+                pattern: ^[A-Za-z0-9 ]{24}$
+                maxLength: 24
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    apiKey:
+      type: apiKey
+      name: X-API-Key
+      in: cookie
+security:
+  - apiKey: []
