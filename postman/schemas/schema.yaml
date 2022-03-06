@@ -9,7 +9,15 @@ externalDocs:
   description: Source Code
   url: https://github.com/ickynavigator/EmuAccom-BE
 servers:
-  - url: "https:localhost:3333/v1/api"
+  - url: "{protocol}:{environment}/v1/api"
+    variables:
+      protocol:
+        default: "https"
+        enum:
+          - http
+          - https
+      environment:
+        default: "localhost:3333"
 tags:
   - name: Dorm
     description: Dormitory related uris
@@ -32,31 +40,11 @@ paths:
         - $ref: "#/components/parameters/keyword"
       responses:
         "200":
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: false
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/User"
-                  page:
-                    type: integer
-                    format: int32
-                    minimum: 1
-                    maximum: 1000
-                  pages:
-                    type: integer
-                    format: int32
-                    minimum: 1
-                    maximum: 1000
+          $ref: "#/components/responses/ListOfUsersResponse"
         "401":
           $ref: "#/components/responses/Unauthorized"
         default:
-          $ref: "#/components/responses/Unauthorized"
+          $ref: "#/components/responses/DefaultError"
     post:
       summary: "User: Sign up a user"
       operationId: registerUser
@@ -79,12 +67,22 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
+                  pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+                  maxLength: 256
                 password:
                   type: string
+                  format: password
+                  pattern: ^[A-Za-z0-9!@#$%^&*()_.]{64}$
+                  maxLength: 64
                 firstName:
                   type: string
+                  pattern: ^[A-Za-z-]{64}$
+                  maxLength: 64
                 lastName:
                   type: string
+                  pattern: ^[A-Za-z-]{64}$
+                  maxLength: 64
                 type:
                   type: string
                   enum:
@@ -99,17 +97,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "400":
-          description: Malformed request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/MalformedRequest"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
   /users/{id}:
     delete:
       summary: Delete a user
@@ -119,32 +109,16 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+        - $ref: "#/components/parameters/idPath"
       responses:
         "204":
           description: User deleted
         "401":
-          description: Unauthorized request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/MalformedRequest"
         "404":
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/ResourceNotFound"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
     get:
       summary: Get a user info by Id
       operationId: getUserById
@@ -153,36 +127,20 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+        - $ref: "#/components/parameters/idPath"
       responses:
         "200":
-          description: User deleted
+          description: User Details
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         "401":
-          description: Unauthorized request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         "404":
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/ResourceNotFound"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
     put:
       summary: Update a users details
       operationId: updateUserById
@@ -191,11 +149,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
+        - $ref: "#/components/parameters/idPath"
       requestBody:
         description: User Data
         required: true
@@ -205,25 +159,13 @@ paths:
               $ref: "#/components/schemas/User"
       responses:
         "204":
-          description: User deleted
+          description: User Details Updated
         "401":
-          description: Unauthorized request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         "404":
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/ResourceNotFound"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
   /users/login:
     post:
       summary: "User: Login a user"
@@ -245,17 +187,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
   /users/profile:
     get:
       summary: "User: Get a users profile"
@@ -272,17 +206,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
     put:
       summary: "User: Update a users profile"
       operationId: updateUserProfile
@@ -305,17 +231,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
     delete:
       summary: "User: Delete a users profile"
       operationId: deleteUserProfile
@@ -327,17 +245,9 @@ paths:
         "204":
           description: Profile Deleted
         "401":
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/Unauthorized"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
   /dorm:
     get:
       summary: "Dormitory: Fetches all the dorm data"
@@ -352,36 +262,22 @@ paths:
         - $ref: "#/components/parameters/keyword"
       responses:
         "200":
-          description: "All Dorms or Dorms that match the search params"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  dorms:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Dorm"
-                  page:
-                    type: integer
-                    format: int32
-                  pages:
-                    type: integer
-                    format: int32
+          $ref: "#/components/responses/ListOfDormsResponse"
         "404":
-          description: "No dorm available"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/ResourceNotFound"
         default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
+    idPath:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: mongo-objectid
+        pattern: ^[A-Za-z0-9 ]{24}$
+        maxLength: 24
     pageSize:
       in: query
       name: pageSize
@@ -423,6 +319,62 @@ components:
         pattern: ^[a-zA-Z0-9 ]*$
         maxLength: 20
   responses:
+    ListOfUsersResponse:
+      description: "List of Users"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              users:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/User"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
+    ListOfDormsResponse:
+      description: "List of all Dorms or Dorms that match the search params"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              dorms:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/Dorm"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
     Unauthorized:
       description: Unauthorized request
       content:
@@ -431,6 +383,18 @@ components:
             $ref: "#/components/schemas/Error"
     DefaultError:
       description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    MalformedRequest:
+      description: Malformed request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ResourceNotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -472,6 +436,7 @@ components:
         token:
           type: string
           pattern: ^(?:[\w-]*\.){2}[\w-]*$
+          maxLength: 1024
         isAdmin:
           type: boolean
     Error:
@@ -480,6 +445,8 @@ components:
       properties:
         message:
           type: string
+          pattern: ^(?:[\w-]*\.){2}[\w-]*$
+          maxLength: 2048
     Dorm:
       type: object
       additionalProperties: false
@@ -506,9 +473,12 @@ components:
               maxLength: 256
             postalCode:
               type: string
+              pattern: ^[A-Za-z0-9. ]{64}$
+              maxLength: 64
             country:
               type: string
               pattern: ^[a-zA-Z]{2,}$
+              maxLength: 64
         bedroomCount:
           type: integer
           format: int32
@@ -546,6 +516,7 @@ components:
           maximum: 999999
         pictures:
           type: array
+          maxItems: 64
           items:
             additionalProperties: false
             type: object
@@ -561,12 +532,14 @@ components:
                 maxLength: 1000
         keywords:
           type: array
+          maxItems: 64
           items:
             type: string
             pattern: ^[A-Za-z0-9. ]{256}$
             maxLength: 256
         reviews:
           type: array
+          maxItems: 256
           items:
             additionalProperties: false
             type: object
@@ -596,7 +569,7 @@ components:
       bearerFormat: JWT
     apiKey:
       type: apiKey
-      name: X-API-Key
-      in: cookie
+      name: api_key
+      in: header
 security:
   - apiKey: []

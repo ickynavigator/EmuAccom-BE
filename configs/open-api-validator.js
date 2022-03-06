@@ -13,5 +13,13 @@ module.exports = {
       deserialize: s => new ObjectID(s),
       serialize: o => o.toString(),
     },
+    {
+      format: "currency",
+      deserialize: s => {
+        const [, value] = s.split(" ");
+        return parseFloat(value);
+      },
+      serialize: o => o.toString(),
+    },
   ],
 };
