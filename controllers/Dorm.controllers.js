@@ -10,7 +10,7 @@ exports.getDorms = asyncHandler(async (req, res) => {
   try {
     const pageSize = Number(req.query.pageSize) || 10;
     const page = Number(req.query.pageNumber) || 1;
-    const paginate = req.query.paginate?.toLowerCase() || "true";
+    const noPaginate = !(Boolean(req.query.noPaginate) ?? true);
     const param = req.query.param || "";
     const regOpt = "gim";
     let keyword = [{}];
@@ -20,6 +20,7 @@ exports.getDorms = asyncHandler(async (req, res) => {
         { name: { $regex: req.query.keyword, $options: regOpt } },
         { description: { $regex: req.query.keyword, $options: regOpt } },
         { keywords: { $regex: req.query.keyword, $options: regOpt } },
+        { management: { $regex: req.query.keyword, $options: regOpt } },
       ];
 
       const specificQuery = {};
@@ -30,7 +31,7 @@ exports.getDorms = asyncHandler(async (req, res) => {
     }
 
     let result = { dorms: [] };
-    if (paginate === "true") {
+    if (noPaginate) {
       const dorms = await Dormitory.find({ $or: [...keyword] })
         .limit(pageSize)
         .skip(pageSize * (page - 1));
@@ -43,6 +44,9 @@ exports.getDorms = asyncHandler(async (req, res) => {
 
     return res.status(200).json(result);
   } catch (err) {
-    return res.status(400).json({ message: err });
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
   }
 });

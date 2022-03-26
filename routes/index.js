@@ -1,9 +1,10 @@
 const express = require("express");
-const dormRoutes = require("../routes/Dorm.routes");
 
 const router = express.Router();
-router.use("/dorm", dormRoutes);
+router.use("/dorm", require("../routes/Dorm.routes"));
+router.use("/users", require("../routes/User.routes"));
 
 module.exports = {
   routes: router,
+  monitoringRoutes: require("../routes/Monitoring.routes"),
 };

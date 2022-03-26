@@ -1,0 +1,575 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Emu Accom"
+  description: "API Documentation for the EMU Accom"
+  license:
+    name: MIT
+externalDocs:
+  description: Source Code
+  url: https://github.com/ickynavigator/EmuAccom-BE
+servers:
+  - url: "{protocol}:{environment}/v1/api"
+    variables:
+      protocol:
+        default: "https"
+        enum:
+          - http
+          - https
+      environment:
+        default: "localhost:3333"
+tags:
+  - name: Dorm
+    description: Dormitory related uris
+  - name: User
+    description: User related uris
+paths:
+  /users:
+    get:
+      summary: Get all users
+      operationId: getAllUsers
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/pageNumber"
+        - $ref: "#/components/parameters/noPaginate"
+        - $ref: "#/components/parameters/param"
+        - $ref: "#/components/parameters/keyword"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfUsersResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    post:
+      summary: "User: Sign up a user"
+      operationId: registerUser
+      tags:
+        - User
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              additionalProperties: false
+              type: object
+              required:
+                - email
+                - password
+                - firstName
+                - lastName
+                - type
+              properties:
+                email:
+                  type: string
+                  format: email
+                  pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+                  maxLength: 256
+                password:
+                  type: string
+                  format: password
+                  pattern: ^[A-Za-z0-9!@#$%^&*()_.]{64}$
+                  maxLength: 64
+                firstName:
+                  type: string
+                  pattern: ^[A-Za-z-]{64}$
+                  maxLength: 64
+                lastName:
+                  type: string
+                  pattern: ^[A-Za-z-]{64}$
+                  maxLength: 64
+                type:
+                  type: string
+                  enum:
+                    - student
+                    - staff
+                    - admin
+      responses:
+        "201":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/MalformedRequest"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /users/{id}:
+    delete:
+      summary: Delete a user
+      operationId: deleteUserById
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "204":
+          description: User deleted
+        "401":
+          $ref: "#/components/responses/MalformedRequest"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    get:
+      summary: Get a user info by Id
+      operationId: getUserById
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "200":
+          description: User Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    put:
+      summary: Update a users details
+      operationId: updateUserById
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "204":
+          description: User Details Updated
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /users/login:
+    post:
+      summary: "User: Login a user"
+      operationId: loginUser
+      tags:
+        - User
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /users/profile:
+    get:
+      summary: "User: Get a users profile"
+      operationId: getUserProfile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    put:
+      summary: "User: Update a users profile"
+      operationId: updateUserProfile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: User Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    delete:
+      summary: "User: Delete a users profile"
+      operationId: deleteUserProfile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Profile Deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /dorm:
+    get:
+      summary: "Dormitory: Fetches all the dorm data"
+      operationId: listDorms
+      tags:
+        - Dorm
+      parameters:
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/pageNumber"
+        - $ref: "#/components/parameters/noPaginate"
+        - $ref: "#/components/parameters/param"
+        - $ref: "#/components/parameters/keyword"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfDormsResponse"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+components:
+  parameters:
+    idPath:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: mongo-objectid
+        pattern: ^[A-Za-z0-9 ]{24}$
+        maxLength: 24
+    pageSize:
+      in: query
+      name: pageSize
+      description: "Pagination: Page size sent back in the payload. Defaults to 10"
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 20
+    pageNumber:
+      in: query
+      name: pageNumber
+      description: "Pagination: Current Page number. Defaults to 1"
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+    noPaginate:
+      in: query
+      name: noPaginate
+      description: "Pagination: Deactivate pagination. Defaults to false"
+      schema:
+        type: boolean
+    param:
+      in: query
+      name: param
+      description: "Search: Parameter you want to search in. E.g. Title, Description"
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9 ]*$
+        maxLength: 20
+    keyword:
+      in: query
+      name: keyword
+      description: "Search: Keyword you want to search in"
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9 ]*$
+        maxLength: 20
+  responses:
+    ListOfUsersResponse:
+      description: "List of Users"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              users:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/User"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
+    ListOfDormsResponse:
+      description: "List of all Dorms or Dorms that match the search params"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              dorms:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/Dorm"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
+    Unauthorized:
+      description: Unauthorized request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    DefaultError:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    MalformedRequest:
+      description: Malformed request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ResourceNotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    User:
+      type: object
+      additionalProperties: false
+      properties:
+        _id:
+          type: string
+          format: mongo-objectid
+          pattern: ^[A-Za-z0-9 ]{24}$
+          maxLength: 24
+        email:
+          type: string
+          format: email
+          pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+          maxLength: 256
+        password:
+          type: string
+          format: password
+          pattern: ^[A-Za-z0-9!@#$%^&*()_.]{64}$
+          maxLength: 64
+        firstName:
+          type: string
+          pattern: ^[A-Za-z-]{64}$
+          maxLength: 64
+        lastName:
+          type: string
+          pattern: ^[A-Za-z-]{64}$
+          maxLength: 64
+        type:
+          type: string
+          enum:
+            - student
+            - houseOwner
+            - dormOwner
+        token:
+          type: string
+          pattern: ^(?:[\w-]*\.){2}[\w-]*$
+          maxLength: 1024
+        isAdmin:
+          type: boolean
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        message:
+          type: string
+          pattern: ^(?:[\w-]*\.){2}[\w-]*$
+          maxLength: 2048
+    Dorm:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9. ]{256}$
+          maxLength: 256
+        description:
+          type: string
+          pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+          maxLength: 1000
+        address:
+          type: object
+          additionalProperties: false
+          properties:
+            addressLine:
+              type: string
+              pattern: ^[A-Za-z0-9. ]{256}$
+              maxLength: 256
+            city:
+              type: string
+              pattern: ^[A-Za-z0-9. ]{256}$
+              maxLength: 256
+            postalCode:
+              type: string
+              pattern: ^[A-Za-z0-9. ]{64}$
+              maxLength: 64
+            country:
+              type: string
+              pattern: ^[a-zA-Z]{2,}$
+              maxLength: 64
+        bedroomCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+        bedCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+        bathroomCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+        accomodateCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+        availabilityCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+        pricePerSemester:
+          type: number
+          format: currency
+          minimum: 1
+          maximum: 999999
+        pricePerNight:
+          type: number
+          format: currency
+          minimum: 1
+          maximum: 999999
+        pictures:
+          type: array
+          maxItems: 64
+          items:
+            additionalProperties: false
+            type: object
+            properties:
+              url:
+                type: string
+                format: url
+                pattern: ^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$
+                maxLength: 300
+              description:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 1000
+        keywords:
+          type: array
+          maxItems: 64
+          items:
+            type: string
+            pattern: ^[A-Za-z0-9. ]{256}$
+            maxLength: 256
+        reviews:
+          type: array
+          maxItems: 256
+          items:
+            additionalProperties: false
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^[A-Za-z0-9. ]{256}$
+                maxLength: 256
+              rating:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 5
+              comment:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 256
+              user:
+                type: string
+                format: mongo-objectid
+                pattern: ^[A-Za-z0-9 ]{24}$
+                maxLength: 24
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKey:
+      type: apiKey
+      name: api_key
+      in: header
+security:
+  - apiKey: []

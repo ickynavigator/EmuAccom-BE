@@ -21,6 +21,12 @@ const Schema = mongoose.Schema(
     pictures: [{ url: { type: String, required: true } }],
     keywords: [{ tag: { type: String, required: true } }],
     reviews: [reviewSchema],
+
+    management: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
   { timestamps: true },
 );
