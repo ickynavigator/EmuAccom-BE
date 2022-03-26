@@ -7,7 +7,7 @@ const {
 const {
   config: statConfig,
   authBasic,
-} = require("../configs/express-status-monitor");
+} = require("../configs/express-status-monitor.config");
 
 const statusMonitor = require("express-status-monitor")(statConfig);
 
