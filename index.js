@@ -8,7 +8,7 @@ const path = require("path");
 const OpenApiValidator = require("express-openapi-validator");
 const helmet = require("helmet");
 
-const openApiConfig = require("./configs/open-api-validator.js");
+const openApiConfig = require("./configs/open-api-validator.config");
 const { errorHandler, notFound } = require("./middleware");
 
 const PORT = process.env.PORT || 5000;
