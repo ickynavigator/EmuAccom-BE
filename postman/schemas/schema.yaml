@@ -445,7 +445,6 @@ components:
       properties:
         message:
           type: string
-          pattern: ^(?:[\w-]*\.){2}[\w-]*$
           maxLength: 2048
     Dorm:
       type: object
@@ -567,9 +566,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    apiKey:
-      type: apiKey
-      name: api_key
-      in: header
-security:
-  - apiKey: []
