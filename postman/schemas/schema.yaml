@@ -73,15 +73,15 @@ paths:
                 password:
                   type: string
                   format: password
-                  pattern: ^[A-Za-z0-9!@#$%^&*()_.]{64}$
+                  pattern: ^[A-Za-z0-9!@#$%^&*()_.]{4,64}$
                   maxLength: 64
                 firstName:
                   type: string
-                  pattern: ^[A-Za-z-]{64}$
+                  pattern: ^[A-Za-z-]{1,64}$
                   maxLength: 64
                 lastName:
                   type: string
-                  pattern: ^[A-Za-z-]{64}$
+                  pattern: ^[A-Za-z-]{1,64}$
                   maxLength: 64
                 type:
                   type: string
@@ -417,15 +417,15 @@ components:
         password:
           type: string
           format: password
-          pattern: ^[A-Za-z0-9!@#$%^&*()_.]{64}$
+          pattern: ^[A-Za-z0-9!@#$%^&*()_.]{1,64}$
           maxLength: 64
         firstName:
           type: string
-          pattern: ^[A-Za-z-]{64}$
+          pattern: ^[A-Za-z-]{1,64}$
           maxLength: 64
         lastName:
           type: string
-          pattern: ^[A-Za-z-]{64}$
+          pattern: ^[A-Za-z-]{1,64}$
           maxLength: 64
         type:
           type: string
@@ -453,7 +453,7 @@ components:
       properties:
         name:
           type: string
-          pattern: ^[A-Za-z0-9. ]{256}$
+          pattern: ^[A-Za-z0-9. ]{1,256}$
           maxLength: 256
         description:
           type: string
@@ -465,15 +465,15 @@ components:
           properties:
             addressLine:
               type: string
-              pattern: ^[A-Za-z0-9. ]{256}$
+              pattern: ^[A-Za-z0-9. ]{1,256}$
               maxLength: 256
             city:
               type: string
-              pattern: ^[A-Za-z0-9. ]{256}$
+              pattern: ^[A-Za-z0-9. ]{1,256}$
               maxLength: 256
             postalCode:
               type: string
-              pattern: ^[A-Za-z0-9. ]{64}$
+              pattern: ^[A-Za-z0-9. ]{1,64}$
               maxLength: 64
             country:
               type: string
@@ -535,7 +535,7 @@ components:
           maxItems: 64
           items:
             type: string
-            pattern: ^[A-Za-z0-9. ]{256}$
+            pattern: ^[A-Za-z0-9. ]{1,256}$
             maxLength: 256
         reviews:
           type: array
@@ -546,7 +546,7 @@ components:
             properties:
               name:
                 type: string
-                pattern: ^[A-Za-z0-9. ]{256}$
+                pattern: ^[A-Za-z0-9. ]{1,256}$
                 maxLength: 256
               rating:
                 type: integer
@@ -560,7 +560,7 @@ components:
               user:
                 type: string
                 format: mongo-objectid
-                pattern: ^[A-Za-z0-9 ]{24}$
+                pattern: ^[A-Za-z0-9 ]{1,24}$
                 maxLength: 24
   securitySchemes:
     bearerAuth:
