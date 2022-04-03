@@ -16,29 +16,31 @@ exports.getDorms = asyncHandler(async (req, res) => {
     let keyword = [{}];
 
     if (req.query.keyword) {
+      const kwSearch = { $regex: req.query.keyword, $options: regOpt };
+
       keyword = [
-        { name: { $regex: req.query.keyword, $options: regOpt } },
-        { description: { $regex: req.query.keyword, $options: regOpt } },
-        { keywords: { $regex: req.query.keyword, $options: regOpt } },
-        { management: { $regex: req.query.keyword, $options: regOpt } },
+        { name: kwSearch },
+        { description: kwSearch },
+        // { "keywords.tag": kwSearch }, // TODO fix regex
+        // { management: kwSearch },
       ];
 
       const specificQuery = {};
       if (req.query.param) {
-        specificQuery[param] = { $regex: req.query.keyword, $options: regOpt };
+        specificQuery[param] = kwSearch;
         keyword.push({ ...specificQuery });
       }
     }
 
     let result = { dorms: [] };
     if (noPaginate) {
-      const dorms = await Dormitory.find({ $or: [...keyword] })
+      const dorms = await Dormitory.find({ $or: keyword })
         .limit(pageSize)
         .skip(pageSize * (page - 1));
-      const count = await Dormitory.countDocuments({ $or: [...keyword] });
+      const count = await Dormitory.countDocuments({ $or: keyword });
       result = { dorms, page, pages: Math.ceil(count / pageSize) };
     } else {
-      const dorms = await Dormitory.find({ $or: [...keyword] });
+      const dorms = await Dormitory.find({ $or: keyword });
       result = { dorms };
     }
 
