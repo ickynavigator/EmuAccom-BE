@@ -368,7 +368,7 @@ components:
               pages:
                 type: integer
                 format: int32
-                minimum: 1
+                minimum: 0
                 maximum: 1000
               total:
                 type: integer
@@ -402,7 +402,6 @@ components:
   schemas:
     User:
       type: object
-      additionalProperties: false
       properties:
         _id:
           type: string
@@ -441,14 +440,12 @@ components:
           type: boolean
     Error:
       type: object
-      additionalProperties: false
       properties:
         message:
           type: string
           maxLength: 2048
     Dorm:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -460,7 +457,6 @@ components:
           maxLength: 1000
         address:
           type: object
-          additionalProperties: false
           properties:
             addressLine:
               type: string
@@ -517,7 +513,6 @@ components:
           type: array
           maxItems: 64
           items:
-            additionalProperties: false
             type: object
             properties:
               url:
@@ -531,16 +526,22 @@ components:
                 maxLength: 1000
         keywords:
           type: array
-          maxItems: 64
+          maxItems: 128
           items:
-            type: string
-            pattern: ^[A-Za-z0-9. ]{1,256}$
-            maxLength: 256
+            type: object
+            properties:
+              tag:
+                type: string
+                pattern: ^[a-zA-Z0-9 ]*$
+                maxLength: 64
+              description:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 1024
         reviews:
           type: array
           maxItems: 256
           items:
-            additionalProperties: false
             type: object
             properties:
               name:
