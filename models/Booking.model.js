@@ -19,6 +19,6 @@ const Schema = mongoose.Schema(
   { timestamps: true },
 );
 
-const RegularBooking = mongoose.model("DormModel", Schema);
+const RegularBooking = mongoose.model("Booking", Schema);
 
 module.exports = RegularBooking;
