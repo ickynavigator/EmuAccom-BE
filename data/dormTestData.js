@@ -12,6 +12,7 @@ const dorms = [
     bedCount: 2,
     bathroomCount: 1,
     accomodateCount: 1,
+    approved: true,
     availabilityCount: 20,
     pricePerSemester: 2000.0,
     pricePerNight: 25.0,

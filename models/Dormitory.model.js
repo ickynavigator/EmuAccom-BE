@@ -21,6 +21,7 @@ const Schema = mongoose.Schema(
     pictures: [{ url: { type: String, required: true } }],
     keywords: [{ tag: { type: String, required: true } }],
     reviews: [reviewSchema],
+    approved: { type: Boolean, required: true },
 
     management: {
       type: mongoose.Schema.Types.ObjectId,
