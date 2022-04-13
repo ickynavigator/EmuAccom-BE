@@ -21,6 +21,10 @@ const dorms = [
         url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
         description: "Test Image",
       },
+      {
+        url: "https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
+        description: "Test Image 2",
+      },
     ],
     keywords: [{ tag: "dorm" }, { tag: "dorms" }],
   },

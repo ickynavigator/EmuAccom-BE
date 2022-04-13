@@ -18,7 +18,12 @@ const Schema = mongoose.Schema(
     availabilityCount: { type: Number, required: true },
     pricePerSemester: { type: Number, required: true },
     pricePerNight: { type: Number },
-    pictures: [{ url: { type: String, required: true } }],
+    pictures: [
+      {
+        url: { type: String, required: true },
+        description: { type: String, required: false },
+      },
+    ],
     keywords: [{ tag: { type: String, required: true } }],
     reviews: [reviewSchema],
     approved: { type: Boolean, required: true },
