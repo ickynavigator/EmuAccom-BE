@@ -323,3 +323,19 @@ exports.deleteUserProfile = asyncHandler(async (req, res) => {
       .json({ message: "An Error has occured. Please try again." });
   }
 });
+
+/**
+ * @desc   Verify the login
+ * @route  GET /api/users/auth
+ * @access Private
+ */
+exports.verifyLogin = asyncHandler(async (req, res) => {
+  try {
+    return res.status(200).json({ message: "You are logged in", valid: true });
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
