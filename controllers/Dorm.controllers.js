@@ -52,3 +52,47 @@ exports.getDorms = asyncHandler(async (req, res) => {
       .json({ message: "An Error has occured. Please try again." });
   }
 });
+
+/**
+ * @desc   Get dorm By Id
+ * @route  GET /api/dorms/:id
+ * @access Public
+ */
+exports.getDormById = asyncHandler(async (req, res) => {
+  try {
+    const dorm = await Dormitory.findById(req.params.id);
+
+    if (dorm) {
+      return res.status(200).json(dorm);
+    } else {
+      return res.status(404).json({ message: "Dorm Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Delete user By Id
+ * @route  DELETE /api/dorms/:id
+ * @access Prıvate
+ */
+exports.DeleteDormById = asyncHandler(async (req, res) => {
+  try {
+    const dorm = await Dormitory.findByIdAndDelete(req.params.id);
+
+    if (dorm) {
+      return res.status(200).end();
+    } else {
+      return res.status(404).json({ message: "Dorm Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});

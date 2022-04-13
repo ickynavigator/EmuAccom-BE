@@ -9,7 +9,7 @@ externalDocs:
   description: Source Code
   url: https://github.com/ickynavigator/EmuAccom-BE
 servers:
-  - url: "{protocol}:{environment}/v1/api"
+  - url: "{protocol}://{environment}/v1/api"
     variables:
       protocol:
         default: "https"
@@ -267,6 +267,45 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
+  /dorm/{id}:
+    delete:
+      summary: "Dormitory: Delete a dorm by Id"
+      operationId: DeleteDormById
+      tags:
+        - Dorm
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "204":
+          description: Dorm deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    get:
+      summary: "Dormitory: Get a dorm info by Id"
+      operationId: getDormById
+      tags:
+        - Dorm
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "200":
+          description: Dorm Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dorm"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
     idPath:
@@ -499,6 +538,8 @@ components:
           format: int32
           minimum: 1
           maximum: 100
+        approved:
+          type: boolean
         pricePerSemester:
           type: number
           format: currency
