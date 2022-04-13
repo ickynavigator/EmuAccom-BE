@@ -10,6 +10,8 @@
     "prepare": "husky install",
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "data:import": "cross-env NODE_ENV=development node data/_mongo-seeder.js",
+    "data:destroy": "cross-env NODE_ENV=development node data/_mongo-seeder.js -d",
     "test": "echo \"Error: no test specified\" && exit 0",
     "prettier": "yarn run prettier:base '**/**.+(md)'",
     "prettier:base": "prettier --ignore-path .eslintignore --write",

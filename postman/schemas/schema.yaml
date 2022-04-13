@@ -9,7 +9,7 @@ externalDocs:
   description: Source Code
   url: https://github.com/ickynavigator/EmuAccom-BE
 servers:
-  - url: "{protocol}:{environment}/v1/api"
+  - url: "{protocol}://{environment}/v1/api"
     variables:
       protocol:
         default: "https"
@@ -267,6 +267,45 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
+  /dorm/{id}:
+    delete:
+      summary: "Dormitory: Delete a dorm by Id"
+      operationId: DeleteDormById
+      tags:
+        - Dorm
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "204":
+          description: Dorm deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    get:
+      summary: "Dormitory: Get a dorm info by Id"
+      operationId: getDormById
+      tags:
+        - Dorm
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "200":
+          description: Dorm Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dorm"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
     idPath:
@@ -368,7 +407,7 @@ components:
               pages:
                 type: integer
                 format: int32
-                minimum: 1
+                minimum: 0
                 maximum: 1000
               total:
                 type: integer
@@ -402,7 +441,6 @@ components:
   schemas:
     User:
       type: object
-      additionalProperties: false
       properties:
         _id:
           type: string
@@ -441,15 +479,12 @@ components:
           type: boolean
     Error:
       type: object
-      additionalProperties: false
       properties:
         message:
           type: string
-          pattern: ^(?:[\w-]*\.){2}[\w-]*$
           maxLength: 2048
     Dorm:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -461,7 +496,6 @@ components:
           maxLength: 1000
         address:
           type: object
-          additionalProperties: false
           properties:
             addressLine:
               type: string
@@ -504,6 +538,8 @@ components:
           format: int32
           minimum: 1
           maximum: 100
+        approved:
+          type: boolean
         pricePerSemester:
           type: number
           format: currency
@@ -518,7 +554,6 @@ components:
           type: array
           maxItems: 64
           items:
-            additionalProperties: false
             type: object
             properties:
               url:
@@ -532,16 +567,22 @@ components:
                 maxLength: 1000
         keywords:
           type: array
-          maxItems: 64
+          maxItems: 128
           items:
-            type: string
-            pattern: ^[A-Za-z0-9. ]{1,256}$
-            maxLength: 256
+            type: object
+            properties:
+              tag:
+                type: string
+                pattern: ^[a-zA-Z0-9 ]*$
+                maxLength: 64
+              description:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 1024
         reviews:
           type: array
           maxItems: 256
           items:
-            additionalProperties: false
             type: object
             properties:
               name:
@@ -567,9 +608,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    apiKey:
-      type: apiKey
-      name: api_key
-      in: header
-security:
-  - apiKey: []
