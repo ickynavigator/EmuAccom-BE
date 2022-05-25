@@ -18,14 +18,19 @@ const Schema = mongoose.Schema(
     availability: { type: Boolean, required: true },
     pricePerMonth: { type: Number, required: true },
     pricePerNight: { type: Number, required: true },
-    pictures: [{ url: { type: String, required: true } }],
+    pictures: [
+      {
+        url: { type: String, required: true },
+        description: { type: String, required: false },
+      },
+    ],
     keywords: [{ tag: { type: String, required: true } }],
     reviews: [reviewSchema],
-
-    owner: {
+    approved: { type: Boolean, required: true },
+    management: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "Manager",
     },
   },
   { timestamps: true },
