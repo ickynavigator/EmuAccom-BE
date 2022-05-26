@@ -27,11 +27,10 @@ const Schema = mongoose.Schema(
     keywords: [{ tag: { type: String, required: true } }],
     reviews: [reviewSchema],
     approved: { type: Boolean, required: true },
-
     management: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "Manager",
     },
   },
   { timestamps: true },
