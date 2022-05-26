@@ -19,11 +19,11 @@ const importData = async () => {
       const modifiedDorms = dorms.map(dorm => {
         return { ...dorm, management: createdUsers[0]._id };
       });
-      // Only done to duplicate the dorms while waiting for real data
-      const duplicatedDorms = Array(40)
-        .fill(0)
-        .map(() => Object.assign({}, modifiedDorms[0]));
-      await Dormitory.insertMany(duplicatedDorms);
+      // // Only done to duplicate the dorms while waiting for real data
+      // const duplicatedDorms = Array(40)
+      //   .fill(0)
+      //   .map(() => Object.assign({}, modifiedDorms[0]));
+      await Dormitory.insertMany(modifiedDorms);
     }
 
     const { houses } = require("./houseTestData");
