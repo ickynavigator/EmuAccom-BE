@@ -23,6 +23,8 @@ tags:
     description: Dormitory related uris
   - name: User
     description: User related uris
+  - name: House
+    description: House related uris
 paths:
   /users:
     get:
@@ -328,6 +330,64 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
+  /house:
+    get:
+      summary: "House: Fetches all the house data"
+      operationId: getHouses
+      tags:
+        - House
+      parameters:
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/pageNumber"
+        - $ref: "#/components/parameters/noPaginate"
+        - $ref: "#/components/parameters/param"
+        - $ref: "#/components/parameters/keyword"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfHousesResponse"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /house/{id}:
+    delete:
+      summary: "House: Delete a house by ID"
+      operationId: deleteHouseById
+      tags:
+        - House
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "204":
+          description: House deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    get:
+      summary: "House: Get a house info by Id"
+      operationId: getHouseById
+      tags:
+        - House
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "200":
+          description: House Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/House"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
     idPath:
@@ -436,6 +496,34 @@ components:
                 format: int32
                 minimum: 1
                 maximum: 9999
+    ListOfHousesResponse:
+      description: "List of all House or Houses that match the search params"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              houses:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/House"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
     Unauthorized:
       description: Unauthorized request
       content:
@@ -506,6 +594,126 @@ components:
           type: string
           maxLength: 2048
     Dorm:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9. ]{1,256}$
+          maxLength: 256
+        description:
+          type: string
+          pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+          maxLength: 1000
+        address:
+          type: object
+          properties:
+            addressLine:
+              type: string
+              pattern: ^[A-Za-z0-9. ]{1,256}$
+              maxLength: 256
+            city:
+              type: string
+              pattern: ^[A-Za-z0-9. ]{1,256}$
+              maxLength: 256
+            postalCode:
+              type: string
+              pattern: ^[A-Za-z0-9. ]{1,64}$
+              maxLength: 64
+            country:
+              type: string
+              pattern: ^[a-zA-Z]{2,}$
+              maxLength: 64
+        bedroomCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+        bedCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+        bathroomCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+        accomodateCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 50
+        availabilityCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+        approved:
+          type: boolean
+        pricePerSemester:
+          type: number
+          format: currency
+          minimum: 1
+          maximum: 999999
+        pricePerNight:
+          type: number
+          format: currency
+          minimum: 1
+          maximum: 999999
+        pictures:
+          type: array
+          maxItems: 64
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: url
+                # pattern: ^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$
+                maxLength: 300
+              description:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 1000
+        keywords:
+          type: array
+          maxItems: 128
+          items:
+            type: object
+            properties:
+              tag:
+                type: string
+                pattern: ^[a-zA-Z0-9 ]*$
+                maxLength: 64
+              description:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 1024
+        reviews:
+          type: array
+          maxItems: 256
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^[A-Za-z0-9. ]{1,256}$
+                maxLength: 256
+              rating:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 5
+              comment:
+                type: string
+                pattern: ^(.|\s)*[a-zA-Z]+(.|\s)*$
+                maxLength: 256
+              user:
+                type: string
+                format: mongo-objectid
+                pattern: ^[A-Za-z0-9 ]{1,24}$
+                maxLength: 24
+    House:
       type: object
       properties:
         name:
