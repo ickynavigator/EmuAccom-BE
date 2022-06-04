@@ -77,3 +77,36 @@ exports.registerManager = asyncHandler(async (req, res) => {
       .json({ message: "An Error has occured. Please try again." });
   }
 });
+
+/**
+ * @desc   Add a manager
+ * @route  POST /api/manager/manager
+ * @access Private
+ */
+exports.loginManager = asyncHandler(async (req, res) => {
+  try {
+    const { email: managerEmail, password } = req.body;
+    const user = await Manager.findOne({ managerEmail });
+    if (user && (await Manager.matchPassword(password))) {
+      const token = await user.generateToken();
+      const userInfo = {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        type: user.type,
+        token,
+      };
+
+      return res.status(200).json(userInfo);
+    } else {
+      return res.status(400).json({ message: "Invalid Email or Password" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
