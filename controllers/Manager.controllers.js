@@ -38,6 +38,7 @@ exports.registerManager = asyncHandler(async (req, res) => {
       managerLastName,
       managerEmail,
       managerDescription,
+      password,
       type,
     } = req.body;
 
@@ -50,6 +51,7 @@ exports.registerManager = asyncHandler(async (req, res) => {
       managerLastName,
       managerEmail,
       managerDescription,
+      password,
       type: type.toUpperCase() || "MANAGER",
     });
 
