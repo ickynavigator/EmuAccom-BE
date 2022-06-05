@@ -17,6 +17,6 @@ router
   .get(protect || protectManager, admin, getAllManagers)
   .post(registerManager);
 router.route("/auth").get(protectManager, verifyManagerLogin);
-router.route("/login").post(protect, loginManager);
+router.route("/login").post(loginManager);
 
 module.exports = router;
