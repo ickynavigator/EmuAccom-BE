@@ -52,7 +52,7 @@ exports.registerManager = asyncHandler(async (req, res) => {
       managerEmail,
       managerDescription,
       password,
-      type: type.toUpperCase() || "MANAGER",
+      type,
     });
 
     if (user) {
