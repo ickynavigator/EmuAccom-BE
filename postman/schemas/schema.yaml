@@ -388,6 +388,152 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
+  /manager:
+    get:
+      summary: "Manager: Fetches all the manager data"
+      operationId: getManagers
+      tags:
+        - Manager
+      parameters:
+        - $ref: "#/components/parameters/pageSize"
+        - $ref: "#/components/parameters/pageNumber"
+        - $ref: "#/components/parameters/noPaginate"
+        - $ref: "#/components/parameters/param"
+        - $ref: "#/components/parameters/keyword"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfManagersResponse"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    post:
+      summary: "Manager: Sign up a manager"
+      operationId: registerManager
+      tags:
+        - Manager
+      requestBody:
+        description: Manager Data
+        required: true
+        content:
+          application/json:
+            schema:
+              additionalProperties: false
+              type: object
+              required:
+                - businessName
+                - managerFirstName
+                - managerLastName
+                - managerEmail
+                - managerDescription
+                - type
+              properties:
+                businessName:
+                  type: string
+                  description: Business name
+                  pattern: ^[A-Za-z-]{1,64}$
+                  maxLength: 64
+                managerFirstName:
+                  type: string
+                  description: Manager first name
+                  pattern: ^[A-Za-z-]{1,64}$
+                  maxLength: 64
+                managerLastName:
+                  type: string
+                  description: Manager last name
+                  pattern: ^[A-Za-z-]{1,64}$
+                  maxLength: 64
+                managerEmail:
+                  type: string
+                  format: email
+                  pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+                  maxLength: 256
+                managerDescription:
+                  type: string
+                  description: Manager description
+                type:
+                  type: string
+                  description: Manager type
+                  enum:
+                    - manager
+                    - admin
+                password:
+                  type: string
+                  format: password
+                  pattern: ^[A-Za-z0-9!@#$%^&*()_.]{4,64}$
+                  maxLength: 64
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "400":
+          $ref: "#/components/responses/MalformedRequest"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /manager/auth:
+    get:
+      summary: Verify manager JWT
+      operationId: verifyManagerLogin
+      tags:
+        - Manager
+      responses:
+        "200":
+          description: Manager verified
+          content:
+            application/json:
+              schema:
+                properties:
+                  valid:
+                    type: boolean
+                  message:
+                    type: string
+                    maxLength: 2048
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /manager/login:
+    post:
+      summary: "Manager: Login a manager"
+      operationId: loginManager
+      tags:
+        - Manager
+      requestBody:
+        description: Manager Data
+        required: true
+        content:
+          application/json:
+            schema:
+              additionalProperties: false
+              type: object
+              required:
+                - managerEmail
+                - password
+              properties:
+                managerEmail:
+                  type: string
+                  format: email
+                  pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+                  maxLength: 256
+                password:
+                  type: string
+                  format: password
+                  pattern: ^[A-Za-z0-9!@#$%^&*()_.]{4,64}$
+                  maxLength: 64
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "400":
+          $ref: "#/components/responses/MalformedRequest"
+        default:
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
     idPath:
@@ -509,6 +655,34 @@ components:
                 maxItems: 256
                 items:
                   $ref: "#/components/schemas/House"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
+    ListOfManagersResponse:
+      description: "List of all Managers or Managers that match the search params"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              managers:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/Manager"
               page:
                 type: integer
                 format: int32
@@ -833,6 +1007,48 @@ components:
                 format: mongo-objectid
                 pattern: ^[A-Za-z0-9 ]{1,24}$
                 maxLength: 24
+    Manager:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongo-objectid
+          pattern: ^[A-Za-z0-9 ]{24}$
+          maxLength: 24
+        businessName:
+          type: string
+          description: Business name
+          pattern: ^[A-Za-z-]{1,64}$
+          maxLength: 64
+        managerFirstName:
+          type: string
+          description: Manager first name
+          pattern: ^[A-Za-z-]{1,64}$
+          maxLength: 64
+        managerLastName:
+          type: string
+          description: Manager last name
+          pattern: ^[A-Za-z-]{1,64}$
+          maxLength: 64
+        managerEmail:
+          type: string
+          format: email
+          pattern: ^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,5})$
+          maxLength: 256
+        managerDescription:
+          type: string
+          description: Manager description
+        type:
+          type: string
+          description: Manager type
+          enum:
+            - manager
+            - admin
+        password:
+          type: string
+          format: password
+          pattern: ^[A-Za-z0-9!@#$%^&*()_.]{4,64}$
+          maxLength: 64
   securitySchemes:
     bearerAuth:
       type: http
