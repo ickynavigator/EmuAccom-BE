@@ -39,18 +39,14 @@ app.use(
   express.static(path.join(__dirname, "postman", "schemas", "schema.yaml")),
 );
 app.get("/schema", (req, res) => res.json(swaggerDocument));
+app.use(OpenApiValidator.middleware(openApiConfig));
+app.use(`/${VERSION_NUMBER}/api`, require("./routes").routes);
+app.use("/", require("./routes").monitoringRoutes);
 app.use(
   "/",
   swaggerUi.serveFiles(null, swaggerOptions),
   swaggerUi.setup(null, swaggerOptions),
 );
-app.use(OpenApiValidator.middleware(openApiConfig));
-app.use(`/${VERSION_NUMBER}/api`, require("./routes").routes);
-app.use("/", require("./routes").monitoringRoutes);
-
-app.get("/", (req, res) => {
-  res.send("API is running....");
-});
 
 app.listen(
   PORT,
