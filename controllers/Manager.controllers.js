@@ -82,14 +82,14 @@ exports.registerManager = asyncHandler(async (req, res) => {
 
 /**
  * @desc   Add a manager
- * @route  POST /api/manager/manager
- * @access Private
+ * @route  POST /api/manager/login
+ * @access Public
  */
 exports.loginManager = asyncHandler(async (req, res) => {
   try {
-    const { email: managerEmail, password } = req.body;
+    const { managerEmail, password } = req.body;
     const user = await Manager.findOne({ managerEmail });
-    if (user && (await Manager.matchPassword(password))) {
+    if (user && (await user.matchPassword(password))) {
       const token = await user.generateToken();
       const userInfo = {
         _id: user._id,
@@ -103,7 +103,7 @@ exports.loginManager = asyncHandler(async (req, res) => {
 
       return res.status(200).json(userInfo);
     } else {
-      return res.status(400).json({ message: "Invalid Email or Password" });
+      return res.status(401).json({ message: "Invalid Email or Password" });
     }
   } catch (err) {
     console.error(err);
