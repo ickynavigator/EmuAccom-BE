@@ -96,3 +96,68 @@ exports.deleteHouseById = asyncHandler(async (req, res) => {
       .json({ message: "An Error has occured. Please try again." });
   }
 });
+
+/**
+ * @desc   Create House
+ * @route  POST /api/house
+ * @access Private, Manager
+ */
+exports.createHouse = asyncHandler(async (req, res) => {
+  try {
+    const house = await House.create(req.body);
+
+    return res.status(201).json(house);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Update House
+ * @route  PUT /api/house/:id
+ * @access Private, Manager
+ */
+exports.updateHouseById = asyncHandler(async (req, res) => {
+  try {
+    const house = await House.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (house) {
+      return res.status(200).json(house);
+    } else {
+      return res.status(404).json({ message: "House Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Get Houses By User
+ * @route  GET /api/house/manager/:id
+ * @access Private, Manager
+ */
+exports.getHousesByUser = asyncHandler(async (req, res) => {
+  try {
+    const houses = await House.find({ management: req.params.id });
+
+    if (houses) {
+      return res.status(200).json(houses);
+    } else {
+      return res.status(404).json({ message: "Houses Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});

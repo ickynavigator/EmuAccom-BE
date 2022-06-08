@@ -96,3 +96,68 @@ exports.DeleteDormById = asyncHandler(async (req, res) => {
       .json({ message: "An Error has occured. Please try again." });
   }
 });
+
+/**
+ * @desc   Create Dorm
+ * @route  POST /api/dorms
+ * @access Private, Manager
+ */
+exports.createDorm = asyncHandler(async (req, res) => {
+  try {
+    const dorm = await Dormitory.create(req.body);
+
+    return res.status(201).json(dorm);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Update Dorm
+ * @route  PUT /api/dorms/:id
+ * @access Private, Manager
+ */
+exports.updateDormById = asyncHandler(async (req, res) => {
+  try {
+    const dorm = await Dormitory.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (dorm) {
+      return res.status(200).json(dorm);
+    } else {
+      return res.status(404).json({ message: "Dorm Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Get Dorms By User
+ * @route  GET /api/dorms/user/:id
+ * @access Private, Manager
+ */
+exports.getDormsByUser = asyncHandler(async (req, res) => {
+  try {
+    const dorms = await Dormitory.find({ management: req.params.id });
+
+    if (dorms) {
+      return res.status(200).json(dorms);
+    } else {
+      return res.status(404).json({ message: "Dorms Not Found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(400)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
