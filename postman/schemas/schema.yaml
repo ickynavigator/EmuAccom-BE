@@ -291,6 +291,29 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
+    post:
+      summary: "Dormitory: Create a new dorm"
+      operationId: createDorm
+      tags:
+        - Dorm
+      requestBody:
+        description: Dorm Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dorm"
+      responses:
+        "201":
+          description: Dorm Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dorm"
+        "400":
+          $ref: "#/components/responses/MalformedRequest"
+        default:
+          $ref: "#/components/responses/DefaultError"
   /dorm/{id}:
     delete:
       summary: "Dormitory: Delete a dorm by Id"
@@ -330,6 +353,75 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
+    put:
+      summary: "Dormitory: Update a dorm by Id"
+      operationId: updateDormById
+      tags:
+        - Dorm
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      requestBody:
+        description: Dorm Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dorm"
+      responses:
+        "200":
+          description: Dorm Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dorm"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /dorm/manager/{id}:
+    get:
+      summary: "Dormitory: Get all dorms by manager's id"
+      operationId: getDormsByManager
+      tags:
+        - Dorm
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfDormsResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    post:
+      summary: "Dormitory: Create a new dorm manager"
+      operationId: createDormManager
+      tags:
+        - Dorm
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      requestBody:
+        description: Dorm Manager Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Manager"
+      responses:
+        "201":
+          description: Dorm Manager Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "400":
+          $ref: "#/components/responses/MalformedRequest"
+        default:
+          $ref: "#/components/responses/DefaultError"
   /house:
     get:
       summary: "House: Fetches all the house data"
@@ -345,6 +437,33 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/ListOfHousesResponse"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    put:
+      summary: "House: Update a house by Id"
+      operationId: updateHouseById
+      tags:
+        - House
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      requestBody:
+        description: House Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/House"
+      responses:
+        "200":
+          description: House Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/House"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/ResourceNotFound"
         default:
@@ -382,6 +501,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/House"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    put:
+      summary: "House: Update a house by Id"
+      operationId: updateHouseById
+      tags:
+        - House
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      requestBody:
+        description: House Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/House"
+      responses:
+        "200":
+          description: House Details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/House"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/ResourceNotFound"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /house/manager/{id}:
+    get:
+      summary: "House: Get all houses info by  manager id"
+      operationId: getHouseByUsers
+      tags:
+        - House
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfHousesResponse"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "404":
