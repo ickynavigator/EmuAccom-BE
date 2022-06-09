@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { Manager } = require("../models");
+const { Manager, Dormitory, House } = require("../models");
 const jwt = require("jsonwebtoken");
 const { updateIfNotEmpty } = require("../utils");
 
@@ -288,6 +288,108 @@ exports.deleteManagerProfile = asyncHandler(async (req, res) => {
       if (manager) {
         return res.status(204).end();
       }
+    } else {
+      return res.status(404).json({ message: "Manager not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Get all property for a manager by profile
+ * @route  GET /api/manager/profile/property
+ * @access Private
+ */
+exports.getAllPropertiesByProfile = asyncHandler(async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const { id } = jwt.decode(token);
+    if (!id) {
+      return res.status(401).json({ message: "Invalid Token" });
+    }
+
+    const manager = await Manager.findById(id);
+    if (manager) {
+      const dorms = await Dormitory.find({ management: id });
+      const houses = await House.find({ management: id });
+
+      const properties = { dorms, houses };
+
+      return res.status(200).json(properties);
+    } else {
+      return res.status(404).json({ message: "Manager not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
+
+/**
+ * @desc   Get all property for a manager by id
+ * @route  GET /api/manager/property/:type/:id
+ * @access Private
+ */
+exports.getAllPropertiesByIdAndType = asyncHandler(async (req, res) => {
+  try {
+    const pageSize = Number(req.query.pageSize) || 10;
+    const page = Number(req.query.pageNumber) || 1;
+    const noPaginate = !(Boolean(req.query.noPaginate) ?? true);
+    const param = req.query.param || "";
+    const regOpt = "gim";
+    let keyword = [{}];
+
+    if (req.query.keyword) {
+      keyword = [
+        { businessName: { $regex: req.query.keyword, $options: regOpt } },
+        { managerFirstName: { $regex: req.query.keyword, $options: regOpt } },
+        { managerLastName: { $regex: req.query.keyword, $options: regOpt } },
+        { managerEmail: { $regex: req.query.keyword, $options: regOpt } },
+      ];
+
+      const specificQuery = {};
+      if (req.query.param) {
+        specificQuery[param] = { $regex: req.query.keyword, $options: regOpt };
+        keyword.push({ ...specificQuery });
+      }
+    }
+
+    const search = {
+      $or: [...keyword],
+      management: req.params.id,
+    };
+    const type = req.params.type;
+    const ModelToSearch = type === "house" ? House : Dormitory;
+
+    const manager = await Manager.findById(req.params.id);
+    if (manager) {
+      let result = {};
+
+      if (noPaginate) {
+        const properties = await ModelToSearch.find(search)
+          .limit(pageSize)
+          .skip(pageSize * (page - 1));
+        const count = await ModelToSearch.countDocuments(search);
+
+        result = {
+          properties,
+          type,
+          page,
+          pages: Math.ceil(count / pageSize),
+          total: count,
+        };
+      } else {
+        const properties = await ModelToSearch.find(search);
+        result = { properties, total: properties.length };
+      }
+
+      return res.status(200).json(result);
     } else {
       return res.status(404).json({ message: "Manager not found" });
     }
