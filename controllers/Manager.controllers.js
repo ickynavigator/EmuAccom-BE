@@ -40,6 +40,7 @@ exports.getAllManagers = asyncHandler(async (req, res) => {
         { managerFirstName: { $regex: req.query.keyword, $options: regOpt } },
         { managerLastName: { $regex: req.query.keyword, $options: regOpt } },
         { managerEmail: { $regex: req.query.keyword, $options: regOpt } },
+        { managerDescription: { $regex: req.query.keyword, $options: regOpt } },
       ];
 
       const specificQuery = {};
