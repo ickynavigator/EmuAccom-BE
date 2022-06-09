@@ -441,13 +441,11 @@ paths:
           $ref: "#/components/responses/ResourceNotFound"
         default:
           $ref: "#/components/responses/DefaultError"
-    put:
-      summary: "House: Update a house by Id"
-      operationId: updateHouseById
+    post:
+      summary: "House: Create a new house"
+      operationId: createHouse
       tags:
         - House
-      parameters:
-        - $ref: "#/components/parameters/idPath"
       requestBody:
         description: House Data
         required: true
@@ -456,16 +454,14 @@ paths:
             schema:
               $ref: "#/components/schemas/House"
       responses:
-        "200":
-          description: House Details
+        "201":
+          description: House Created
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/House"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/ResourceNotFound"
+        "400":
+          $ref: "#/components/responses/MalformedRequest"
         default:
           $ref: "#/components/responses/DefaultError"
   /house/{id}:
@@ -697,6 +693,97 @@ paths:
           $ref: "#/components/responses/MalformedRequest"
         default:
           $ref: "#/components/responses/DefaultError"
+  /manager/profile:
+    get:
+      summary: "Manager: Get a managers profile"
+      operationId: getManagerProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Manager profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    put:
+      summary: "Manager: Update a manager profile"
+      operationId: updateManagerProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Manager Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Manager"
+      responses:
+        "200":
+          description: Manager profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    delete:
+      summary: "Manager: Delete a users profile"
+      operationId: deleteManagerProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Profile Deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /manager/profile/property:
+    get:
+      summary: "Manager: Get the logged in manager's property"
+      operationId: getAllPropertiesByProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfPropertiesResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+  /manager/property/{type}/{id}:
+    get:
+      summary: "Manager: Get a property"
+      operationId: getProperty
+      tags:
+        - Manager
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+        - $ref: "#/components/parameters/typePath"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfPropertiesResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
     idPath:
@@ -708,6 +795,15 @@ components:
         format: mongo-objectid
         pattern: ^[A-Za-z0-9 ]{24}$
         maxLength: 24
+    typePath:
+      in: path
+      name: type
+      required: true
+      schema:
+        type: string
+        enum:
+          - dorm
+          - house
     pageSize:
       in: query
       name: pageSize
@@ -846,6 +942,70 @@ components:
                 maxItems: 256
                 items:
                   $ref: "#/components/schemas/Manager"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
+    ListOfPropertiesResponse:
+      description: "List of all Properties or Properties that match the search params"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              properties:
+                type: object
+                properties:
+                  dorms:
+                    type: array
+                    maxItems: 256
+                    items:
+                      $ref: "#/components/schemas/Dorm"
+                  houses:
+                    type: array
+                    maxItems: 256
+                    items:
+                      $ref: "#/components/schemas/House"
+              page:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 1000
+              pages:
+                type: integer
+                format: int32
+                minimum: 0
+                maximum: 1000
+              total:
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 9999
+    ListOfPropertiesByTypesResponse:
+      description: "List of all Properties or Properties that match the search params and the type"
+      content:
+        application/json:
+          schema:
+            additionalProperties: false
+            type: object
+            properties:
+              properties:
+                type: array
+                maxItems: 256
+                items:
+                  $ref: "#/components/schemas/Property"
               page:
                 type: integer
                 format: int32
@@ -1212,6 +1372,11 @@ components:
           format: password
           pattern: ^[A-Za-z0-9!@#$%^&*()_.]{4,64}$
           maxLength: 64
+    Property:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/House"
+        - $ref: "#/components/schemas/Dorm"
   securitySchemes:
     bearerAuth:
       type: http

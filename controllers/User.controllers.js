@@ -266,12 +266,13 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(id);
 
     if (user) {
-      const { firstName, lastName, email } = req.body;
+      const { firstName, lastName, email, password } = req.body;
 
       updateIfNotEmpty(user, [
         { key: "firstName", value: String(firstName).trim() },
         { key: "lastName", value: String(lastName).trim() },
         { key: "email", value: String(email).trim() },
+        { key: "password", value: String(password).trim() },
       ]);
 
       const updatedUser = await user.save();
