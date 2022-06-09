@@ -697,6 +697,64 @@ paths:
           $ref: "#/components/responses/MalformedRequest"
         default:
           $ref: "#/components/responses/DefaultError"
+  /manager/profile:
+    get:
+      summary: "Manager: Get a managers profile"
+      operationId: getManagerProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Manager profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    put:
+      summary: "Manager: Update a manager profile"
+      operationId: updateManagerProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Manager Data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Manager"
+      responses:
+        "200":
+          description: Manager profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Manager"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    delete:
+      summary: "Manager: Delete a users profile"
+      operationId: deleteManagerProfile
+      tags:
+        - Manager
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Profile Deleted
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
 components:
   parameters:
     idPath:

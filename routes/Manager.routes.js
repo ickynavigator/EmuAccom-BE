@@ -4,6 +4,9 @@ const {
   getAllManagers,
   registerManager,
   loginManager,
+  getManagerProfile,
+  updateManagerProfile,
+  deleteManagerProfile,
 } = require("../controllers/Manager.controllers");
 const {
   protect,
@@ -16,7 +19,12 @@ router
   .route("/")
   .get(protect || protectManager, admin, getAllManagers)
   .post(registerManager);
-router.route("/auth").get(protectManager, verifyManagerLogin);
 router.route("/login").post(loginManager);
+router
+  .route("/profile")
+  .get(protect, getManagerProfile)
+  .put(protect, updateManagerProfile)
+  .delete(protect, deleteManagerProfile);
+router.route("/auth").get(protectManager, verifyManagerLogin);
 
 module.exports = router;
