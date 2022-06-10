@@ -15,7 +15,7 @@ const Schema = mongoose.Schema(
     bedCount: { type: Number, required: true },
     bathroomCount: { type: Number, required: true },
     accomodateCount: { type: Number, required: true },
-    availability: { type: Boolean, required: true },
+    availability: { type: Boolean },
     pricePerMonth: { type: Number, required: true },
     pricePerNight: { type: Number, required: true },
     pictures: [
