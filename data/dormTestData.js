@@ -22,7 +22,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -48,11 +48,11 @@ const dorms = [
     pricePerNight: 25.0,
     pictures: [
       {
-        url: "https://tr.alfamcyprus.com/thumbnail.php?file=images/odalar/oda1.jpg",
+        url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -83,7 +83,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -114,7 +114,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -145,7 +145,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -176,7 +176,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -207,7 +207,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -238,7 +238,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -268,7 +268,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -298,7 +298,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -328,7 +328,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -358,7 +358,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -388,7 +388,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -418,7 +418,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -448,7 +448,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -478,7 +478,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -508,7 +508,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -538,7 +538,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -568,7 +568,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -598,7 +598,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
@@ -628,7 +628,7 @@ const dorms = [
         description: "Test Image 2",
       },
       {
-        url: "https://upload.wikimedia.org/wikipedia/en/9/95/Test_image.jpg?20071023120759",
+        url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
         description: "Test Image",
       },
     ],
