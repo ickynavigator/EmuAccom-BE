@@ -7,6 +7,7 @@ const {
   updateHouseById,
   getHousesByUser,
 } = require("../controllers/House.controllers");
+const { protectManager } = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.route("/manager/:id").get(getHousesByUser);
 router
   .route("/:id")
   .get(getHouseById)
-  .delete(deleteHouseById)
-  .put(updateHouseById);
+  .delete(protectManager, deleteHouseById)
+  .put(protectManager, updateHouseById);
 
 module.exports = router;

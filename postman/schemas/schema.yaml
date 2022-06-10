@@ -360,6 +360,8 @@ paths:
         - Dorm
       parameters:
         - $ref: "#/components/parameters/idPath"
+      security:
+        - bearerAuth: []
       requestBody:
         description: Dorm Data
         required: true
@@ -510,6 +512,8 @@ paths:
         - House
       parameters:
         - $ref: "#/components/parameters/idPath"
+      security:
+        - bearerAuth: []
       requestBody:
         description: House Data
         required: true
