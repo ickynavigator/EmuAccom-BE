@@ -15,8 +15,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 10000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 10000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://d2vho998xd1yud.cloudfront.net/property_wm/property/11314/248063/magusa-magusa-merkez-kiralik-daire-248063-1653640036.6076.jpeg",
@@ -45,8 +45,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 10500.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 10500,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://images.adsttc.com/media/images/5b7c/03d2/f197/cc92/f600/010f/large_jpg/ADP_Toedistrasse_Outside_3.jpg?1534854084",
@@ -75,8 +75,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 6250.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 6250,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg",
@@ -104,8 +104,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 30000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 30000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://i.pinimg.com/736x/4a/a9/55/4aa955a400be6c95a34a61bb0094ba35.jpg",
@@ -133,8 +133,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 50000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 50000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://images.unsplash.com/photo-1612637968894-660373e23b03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YXBhcnRtZW50JTIwYnVpbGRpbmd8ZW58MHx8MHx8&w=1000&q=80",
@@ -164,8 +164,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 11000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 11000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://dcist.com/wp-content/uploads/sites/3/2020/04/aptCOVID-900x676.jpg",
@@ -195,8 +195,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 12000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 12000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://214pressurewashing.com/wp-content/uploads/2017/09/apartment-9-11-17.jpeg",
@@ -225,8 +225,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 13000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 13000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://plegma.com.cy/wp-content/uploads/2020/07/3d-view-9-night-1.jpg",
@@ -255,8 +255,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 30000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 30000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://kazo.com.cy/storage/temp/public/eab/a8d/bdc/thumb__730_0_0_0_auto__730.jpg",
@@ -285,8 +285,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 15000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 15000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://propertylink-cyprus.com/wp-content/uploads/2021/08/RSL10039-2-Apartment-Buildings-for-Sale-in-Zakaki-Limassol.jpg",
@@ -315,8 +315,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 10000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 10000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://d2vho998xd1yud.cloudfront.net/property_wm/property/11314/248063/magusa-magusa-merkez-kiralik-daire-248063-1653640036.6076.jpeg",
@@ -345,8 +345,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 10500.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 10500,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://images.adsttc.com/media/images/5b7c/03d2/f197/cc92/f600/010f/large_jpg/ADP_Toedistrasse_Outside_3.jpg?1534854084",
@@ -375,8 +375,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 6250.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 6250,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://www.phillyaptrentals.com/wp-content/uploads/2020/12/apartment-building-what-makes-good-apartment-building-scaled.jpg",
@@ -404,8 +404,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 30000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 30000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://i.pinimg.com/736x/4a/a9/55/4aa955a400be6c95a34a61bb0094ba35.jpg",
@@ -433,8 +433,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 50000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 50000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://images.unsplash.com/photo-1612637968894-660373e23b03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YXBhcnRtZW50JTIwYnVpbGRpbmd8ZW58MHx8MHx8&w=1000&q=80",
@@ -464,8 +464,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 11000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 11000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://dcist.com/wp-content/uploads/sites/3/2020/04/aptCOVID-900x676.jpg",
@@ -495,8 +495,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 12000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 12000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://214pressurewashing.com/wp-content/uploads/2017/09/apartment-9-11-17.jpeg",
@@ -525,8 +525,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 13000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 13000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://plegma.com.cy/wp-content/uploads/2020/07/3d-view-9-night-1.jpg",
@@ -555,8 +555,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 30000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 30000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://kazo.com.cy/storage/temp/public/eab/a8d/bdc/thumb__730_0_0_0_auto__730.jpg",
@@ -585,8 +585,8 @@ const houses = [
     accomodateCount: 1,
     approved: true,
     availabilityCount: 20,
-    pricePerSemester: 15000.0,
-    pricePerNight: 25.0,
+    pricePerMonth: 15000,
+    pricePerNight: 25,
     pictures: [
       {
         url: "https://propertylink-cyprus.com/wp-content/uploads/2021/08/RSL10039-2-Apartment-Buildings-for-Sale-in-Zakaki-Limassol.jpg",
