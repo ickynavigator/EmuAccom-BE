@@ -7,6 +7,7 @@ const {
   updateDormById,
   getDormsByUser,
 } = require("../controllers/Dorm.controllers");
+const { protectManager } = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.route("/manager/:id").get(getDormsByUser);
 router
   .route("/:id")
   .get(getDormById)
-  .delete(DeleteDormById)
-  .put(updateDormById);
+  .delete(protectManager, DeleteDormById)
+  .put(protectManager, updateDormById);
 
 module.exports = router;

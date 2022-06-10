@@ -360,6 +360,8 @@ paths:
         - Dorm
       parameters:
         - $ref: "#/components/parameters/idPath"
+      security:
+        - bearerAuth: []
       requestBody:
         description: Dorm Data
         required: true
@@ -510,6 +512,8 @@ paths:
         - House
       parameters:
         - $ref: "#/components/parameters/idPath"
+      security:
+        - bearerAuth: []
       requestBody:
         description: House Data
         required: true
@@ -769,7 +773,7 @@ paths:
   /manager/property/{type}/{id}:
     get:
       summary: "Manager: Get a property"
-      operationId: getProperty
+      operationId: getAllPropertiesByIdAndType
       tags:
         - Manager
       parameters:
@@ -780,6 +784,23 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/ListOfPropertiesResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        default:
+          $ref: "#/components/responses/DefaultError"
+    delete:
+      summary: "Manager: Delete a property"
+      operationId: deletePropertiesByIdAndType
+      tags:
+        - Manager
+      parameters:
+        - $ref: "#/components/parameters/idPath"
+        - $ref: "#/components/parameters/typePath"
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Property Deleted
         "401":
           $ref: "#/components/responses/Unauthorized"
         default:
@@ -962,7 +983,6 @@ components:
       content:
         application/json:
           schema:
-            additionalProperties: false
             type: object
             properties:
               properties:
