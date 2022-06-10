@@ -9,6 +9,7 @@ const {
   deleteManagerProfile,
   getAllPropertiesByProfile,
   getAllPropertiesByIdAndType,
+  deletePropertiesByIdAndType,
 } = require("../controllers/Manager.controllers");
 const {
   protect,
@@ -29,6 +30,9 @@ router
   .put(protect, updateManagerProfile)
   .delete(protect, deleteManagerProfile);
 router.route("/profile/property").get(protect, getAllPropertiesByProfile);
-router.route("/property/:type/:id").get(protect, getAllPropertiesByIdAndType);
+router
+  .route("/property/:type/:id")
+  .get(protect, getAllPropertiesByIdAndType)
+  .delete(protect, deletePropertiesByIdAndType);
 
 module.exports = router;

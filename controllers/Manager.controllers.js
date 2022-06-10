@@ -400,3 +400,36 @@ exports.getAllPropertiesByIdAndType = asyncHandler(async (req, res) => {
       .json({ message: "An Error has occured. Please try again." });
   }
 });
+
+/**
+ * @desc   Deletes a property for a manager by property id and type
+ * @route  GET /api/manager/property/:type/:id
+ * @access Private
+ */
+exports.deletePropertiesByIdAndType = asyncHandler(async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const { id: managerId } = jwt.decode(token);
+    if (!managerId) {
+      return res.status(401).json({ message: "Invalid Token" });
+    }
+
+    const manager = await Manager.findById(managerId);
+    if (manager) {
+      const type = req.params.type;
+      const modelID = req.params.id;
+      const ModelToSearch = type === "house" ? House : Dormitory;
+
+      await ModelToSearch.findByIdAndDelete(modelID);
+
+      return res.status(204).end();
+    } else {
+      return res.status(404).json({ message: "Manager not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An Error has occured. Please try again." });
+  }
+});
